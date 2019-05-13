@@ -1,0 +1,101 @@
+% zbiór funkcji ułatwiajacych tworzenie pokazowych plików LaTeX
+
+\newcommand{\pkgLink}[1]{\texttt{\href{https://ctan.org/pkg/#1}{#1}}}
+\newcommand{\rrpPkgLink}[1]{\texttt{\href{https://bitbucket.org/OpCode-eu-org/latex-libs/}{#1}}}
+
+\newenvironment{CatchExample}{
+	\VerbatimEnvironment
+	\begin{VerbatimOut}{\jobname.0.tmp}%
+}{%
+	\end{VerbatimOut}
+}
+\newenvironment{CatchExample*}[1]{
+	\VerbatimEnvironment
+	\begin{VerbatimOut}{\jobname.#1.tmp}%
+}{%
+	\end{VerbatimOut}
+}
+\newenvironment{MintedCode}{
+	\VerbatimEnvironment
+	\begin{adjustwidth}{.05\textwidth}{.05\textwidth}
+	\begin{minted}[breaklines=false,breakafter={},numbers=left,numbersep=4pt,fontsize=\footnotesize]{tex}%
+}{%
+	\end{minted}
+	\end{adjustwidth}
+}
+
+\let\FancyVerbFormatLineOrg\FancyVerbFormatLine
+\renewcommand{\FancyVerbFormatLine}[1]{%
+	\colorbox[rgb]{.9,.9,.9}{\hbox to .975\linewidth {#1}}%
+}
+\newcommand{\putExampleVerbatim}[1][0]{
+	\inputminted[breaklines=false,breakafter={},numbers=left,numbersep=4pt,fontsize=\footnotesize]{latex}{\jobname.#1.tmp}
+}
+\newcommand{\putExampleVerbatimAdjust}[1][0]{
+	\begin{adjustwidth}{.05\textwidth}{.05\textwidth} \putExampleVerbatim[#1] \end{adjustwidth}
+}
+\newcommand{\putExampleTeX}[1][0]{
+	\input{\jobname.#1.tmp}
+}
+
+\newenvironment{Example}{
+	\VerbatimEnvironment
+	\begin{CatchExample}%
+}{%
+	\end{CatchExample}
+	\nopagebreak
+	
+	\hspace{0.015\textwidth}\parbox[c]{0.6\textwidth}{%
+		\vspace{-\topsep}\vspace{-\partopsep}\vspace{-\parskip}%
+		\putExampleVerbatim%
+		\vspace{-\topsep}\vspace{-\partopsep}%
+	}%
+	\hspace{0.03\textwidth}\parbox[c]{0.3\textwidth}{\centering%
+		\putExampleTeX%
+	}%
+}
+
+\newenvironment{Example*}{
+	\VerbatimEnvironment
+	\begin{CatchExample}%
+}{%
+	\end{CatchExample}
+	\nopagebreak
+	
+	\hspace{0.015\textwidth}\parbox[c]{0.6\textwidth}{%
+		\vspace{-\topsep}\vspace{-\partopsep}\vspace{-\parskip}%
+		\putExampleVerbatim%
+		\vspace{-\topsep}\vspace{-\partopsep}%
+	}%
+	\hspace{0.03\textwidth}\parbox[c]{0.3\textwidth}{%
+		\putExampleTeX%
+	}%
+}
+
+\newenvironment{ExampleVertical}{
+	\VerbatimEnvironment
+	\begin{CatchExample}%
+}{%
+	\end{CatchExample}
+	\putExampleVerbatimAdjust\vspace{-0.5cm}%
+	\begin{center}%
+		\putExampleTeX%
+	\end{center}%
+}
+
+\newenvironment{ExampleVertical*}{
+	\VerbatimEnvironment
+	\begin{CatchExample}%
+}{%
+	\end{CatchExample}
+	\putExampleVerbatimAdjust%
+	\putExampleTeX%
+}
+
+% definiujemy środowiska Example i ExampleVertical
+%\makeatletter % powoduje że możemy używać @ w nazwach makr
+ %\@namedef{Example}{\FV@Environment{}{VerbatimOut}{\jobname.tmp}}
+ %\@namedef{endExample}{\@nameuse{FVE@VerbatimOut}\PrintCodeAndExampleA{\jobname.tmp}}
+ %\@namedef{ExampleVertical}{\FV@Environment{}{VerbatimOut}{\jobname.tmp}}
+ %\@namedef{endExampleVertical}{\@nameuse{FVE@VerbatimOut}\PrintCodeAndExampleB{\jobname.tmp}}
+%\makeatother % przywracamy standardowe znaczenie @

@@ -1,0 +1,337 @@
+/**
+ * Copyright (c) 2003-2019, Robert Ryszard Paciorek <rrp@opcode.eu.org>, MIT license
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+**/
+
+/* wcięcia sekcji */
+body {
+	margin-left:   20px;
+}
+section, div.section {
+	margin-left:   12px;
+}
+
+/* nagłówki na poziomie poprzedniej sekcji */
+h2, h3, h4, h5, h6 {
+	margin-left:   -12px;
+}
+
+/* odstępy pionowe dla elementów zawierających tytuły sekcji */
+h1, h2, h3, h4, h5, h6 {
+	margin-top:    0;
+	margin-bottom: 12px;
+
+}
+
+/* unikamy łamania strony pomiędzy nagłówkiem a tesktem sekcji */
+@media print {
+	/*
+	h1, h2, h3, h4, h5, h6 {
+		page-break-after: avoid;
+	}
+	section > p:first-of-type, section > div.par:first-of-type,
+	div.section > p:first-of-type, div.section > div.par:first-of-type {
+		page-break-before: avoid;
+	}
+	*/
+	h2, h3, h4, h5, h6 {
+		page-break-inside: avoid;
+		color: #010101;
+	}
+	h2::after, h3::after, h4::after, h5::after, h6::after {
+		content: "";
+		display: block;
+		height: 33px;
+		margin-bottom: -33px;
+		/*border: 1px red solid;*/
+	}
+}
+
+/* odstępy pionowe dla elementów zawierających treść sekcji */
+p, div.par, dl, ul, ol  {
+	margin-top:    0;
+	margin-bottom: 14px;
+}
+
+/* odstępy pionowe elementów list */
+dt {
+	margin-top:    6px;
+	margin-bottom: 0;
+}
+dd {
+	margin-top:    0;
+	margin-bottom: 6px;
+}
+li {
+	margin-top:    6px;
+	margin-bottom: 6px;
+}
+
+/* wcięcia i odstępy pionowe list w ramach akapitu */
+div.par dl, div.par ul, div.par ol,
+p dl, p ul, p ol {
+	margin-left:   12px;
+	margin-top:    6px;
+	margin-bottom: 6px;
+}
+
+/* wcięcia i poprzedzające odstępy pionowe list w ramach list definicyjnych */
+dd {
+	margin-left:   2em;
+}
+dd ul, dd ol {
+	margin-top:    0;
+}
+dd > ul, aa > ol{
+	margin-left:   -1.8em;
+}
+
+
+/* wyrównania w pionie i poziomie */
+div.par, p, dl, ul, ol  {
+	text-align: justify;
+}
+.left {
+	float: left;
+	padding: 5px;
+}
+.right {
+	float: right;
+	padding: 5px;
+}
+.vcenter {
+	display: inline-block;
+	vertical-align: middle
+}
+
+/* obrazki obok tekstu */
+.right_img {
+	float: right;
+	padding: 5px;
+	margin-right:20px;
+	margin-left:10px;
+}
+section, div.section, .clear {
+	clear:both;
+}
+div.noclear, .noclear {
+	clear:none;
+}
+@media print {
+	.right_img {
+		float: right;
+		max-width:70%;
+		padding: 5px;
+		margin-right:0px;
+		margin-left:0px;
+		page-break-before: auto;
+		page-break-after: auto;
+		page-break-inside: avoid;
+	}
+}
+
+
+/* listy definicyjne */
+dt dfn {
+	font-weight: bold;
+}
+
+dl.cmdlist dt dfn {
+	font-family: monospace;
+	font-weight: normal;
+	font-style: normal;
+}
+dl.cmdlist dt var {
+	font-family: monospace;
+	font-style: italic;
+}
+
+dl.cmdlist dd var {
+	font-family: monospace;
+	font-style: italic;
+}
+
+/* kod in-line, tabele oraz przykłady */
+table {
+	padding: 5px;
+}
+table td {
+	padding-right: 27px;
+	padding-bottom: 15px;
+}
+
+div.par code.hljs, p code.hljs {
+	display: inline;
+}
+
+div.examples, p.examples {
+	font-style: italic;
+	font-size: small;
+	color: #555555;
+}
+
+div.examples::before, p.examples::before {
+    content: "Przykłady: ";
+}
+
+/* nagłówki i akapity specjalne */
+h1, #updateInfo {
+	text-align:center;
+}
+#updateInfo {
+	font-style: italic;
+	font-size: small;
+}
+
+
+/* demonstracyjne kody programów */
+div.demo_codes {
+	width: 100%;
+	overflow: auto;
+	padding-bottom: 7px;
+	margin-bottom: 20px;
+}
+div.demo_codes div {
+	display: table;
+	min-width: 100%;
+	border-spacing: 7pt 0;
+}
+div.demo_codes pre {
+	padding-top: 7px;
+	display: table-cell;
+	min-width: 25%;
+	tab-size: 4;
+	-moz-tab-size: 4;
+}
+@media print {
+	div.demo_codes div {
+		display: block;
+	}
+	div.demo_codes pre {
+		display: block;
+	}
+	/* paski przewijania na wydruku oznaczają błąd formatowania, zatem pokzaujemy je wyraźnie */
+	/* to jest niestandardowe rozszerzenie webkit'a, ale potrzebujemy tego tylko w wkhtmltopdf, opartym właśnie na nim */
+	::-webkit-scrollbar {
+		width: 40px;
+	}
+	::-webkit-scrollbar-track {
+		background: black; 
+	}
+	::-webkit-scrollbar-thumb {
+		background: red; 
+	}
+}
+div.demo_codes pre::before {
+	position: relative; 
+	top: -7px;
+	font-style: italic;
+	color: blue;
+}
+div.demo_codes pre.cpp::before {
+    content: "/// Przykład C++ " attr(data-info);
+}
+div.demo_codes pre.python::before {
+    content: "### Przykład Python " attr(data-info);
+}
+div.demo_codes pre.bash::before {
+    content: "### Przykład Bash " attr(data-info);
+}
+div.demo_codes pre.php::before {
+    content: "/// Przykład PHP " attr(data-info);
+}
+div.demo_codes pre.javascript::before {
+    content: "/// Przykład JavaScript " attr(data-info);
+}
+div.demo_codes pre.xml::before {
+    content: "/// Przykład XHTML+JavaScript " attr(data-info);
+}
+
+
+/* tabela linków */
+table.links {
+	width: 100%;
+	margin-bottom:20px;
+	border-collapse:collapse;
+}
+table.links tr td, table.links tr th {
+	padding:      7px;
+	border-left:  1px dotted #aaaaaa;
+	border-right: 1px dotted #aaaaaa;
+	/*hyphens: auto;*/
+}
+table.links tr td:first-child, table tr th:first-child {
+	border-left:  2px solid #000000;
+}
+table.links tr td:last-child, table tr th:last-child {
+	border-right: 2px solid #000000;
+}
+table.links tr {
+	border-left:  2px solid #000000;
+	border-right: 2px solid #000000;
+	border-top:   2px solid #555555;
+}
+table.links tr:first-child {
+	border-top:   2px solid #000000;
+}
+table.links tr:last-child {
+	border-bottom:2px solid #000000;
+}
+
+table.links tr.h2 th {
+	background-color:#bbbbbb;
+	text-align:center;
+	font-weight:bold;
+	color:#ffffff;
+	padding:1px;
+}
+table.links tr.h3 th {
+	background-color:#999999;
+	color:#ffffff;
+	padding:5px;
+}
+table.links td {
+	height: 48px;
+}
+@media print {
+	table.links td {
+		height: 48px;
+	}
+	table.links tr {
+		page-break-inside: avoid;
+	}
+}
+
+table.links tr td:nth-child(0n+2) {
+	font-style: italic;
+}
+table.links tr td:nth-child(3), table.links tr td:nth-child(4), table.links tr td:nth-child(5) {
+	font-size: 80%;
+}
+
+table.links tr td:nth-child(7), table.links tr th:nth-child(7) {
+	display: none;
+}
+
+@media print {
+	#licencja{
+		page-break-before: always;
+	}
+}

@@ -1,0 +1,151 @@
+/**
+ * Copyright (c) 2019, Robert Ryszard Paciorek <rrp@opcode.eu.org>, MIT license
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+**/
+
+/* section box */
+div.section {
+	display: inline-block;
+	
+	border: 2px black solid;
+	background: white;
+	border-radius: 24px;
+	
+	padding: 0;
+	margin: 8px;
+	
+	max-width: 444px;
+}
+div.section * {
+	padding: 0;
+	margin: 0;
+}
+
+/* section title */
+div.section h3 {
+	display: block;
+	text-align: center;
+	
+	border-bottom: 2px black solid;
+	border-radius: 0px;
+	
+	padding: 8px 16px;
+}
+
+/* section content */
+div.section ul, div.section p {
+	display: block;
+	text-align: center;
+}
+div.section ul {
+	margin: 8px;
+}
+
+/* section content elements */
+div.section ul > li {
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	
+	background: #e6e6e6;
+	border-radius: 16px;
+	
+	margin: 4px;
+}
+
+
+/* section content elements internal format */
+div.section p span, div.section ul > li div {
+	display: inline-block;
+	vertical-align: middle;
+}
+div.section p span.txt {
+	padding: 8px 0 8px 8px;
+}
+div.section p span.img {
+	padding: 0;
+}
+div.section p span.img > a > img, div.section p span.img > img {
+	padding: 8px 0;
+}
+div.section p span.img > a:last-of-type > img, div.section p span.img > img:last-of-type {
+	padding: 8px 8px 8px 0;
+}
+div.section ul > li div.img, div.section ul > li div.img img {
+	height: 44px;
+}
+div.section ul > li div.txt {
+	margin-right: 8px;
+}
+div.section ul > li a {
+	display: inline-block;
+	height: 100%;
+}
+div.section ul > li a:first-of-type {
+	padding: 8px 0 8px 16px;
+}
+div.section ul > li a:last-of-type {
+	padding: 8px 16px 8px 0;
+}
+div.section ul > li a:only-of-type {
+	padding: 8px 16px;
+}
+div.section a {
+	text-decoration: none;
+	color: black;
+}
+
+
+/* page header */
+h1 {
+	text-align: center;
+	font-size: 64px;
+	font-family: monospace;
+	margin: 8px;
+}
+
+
+/* menu element */
+.menu {
+	display: block;
+	text-align: center;
+}
+.menu > div {
+	display: inline-block; /* for browser without grid support */
+	max-width: 1300px;
+}
+.menu > div > div {
+	display: inline-grid;
+	justify-content: center;
+	align-content: center;
+	justify-items: center;
+	align-items: center;
+	
+	grid-gap: 0px;
+	grid-template-columns: repeat(13, 100px); /* no more than max-width of parent div */
+}
+
+
+/*
+#gridElement {
+	max-width: 600px; min-width: 500px;
+	grid-area: row / col / span numberOfRows / span numberOfCols;
+}
+*/
