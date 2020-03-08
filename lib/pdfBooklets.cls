@@ -144,7 +144,7 @@
 	label=#3,
 	#1
 }
-\newcommand{\domowe}[1]{ \teacher{ -- \bf proponowane zadanie domowe za #1 pkt} }
+\newcommand{\domowe}[1]{\teacher{{} -- \bf proponowane zadanie domowe za #1 pkt}}
 
 
 \RequirePackage{titling} % configure \maketitle command
