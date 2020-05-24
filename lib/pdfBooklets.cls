@@ -54,7 +54,7 @@
 
 % footnotes always on page bottom
 \let\svfootnoterule\footnoterule
-\renewcommand\footnoterule{\vfill\svfootnoterule}
+\renewcommand\footnoterule{\vfill\vspace{4pt}\svfootnoterule}
 
 % redefine looks of footnotes to:
 %   margin (3mm), number (with constant filed width 6mm), empty space (remained from number filed width), text
