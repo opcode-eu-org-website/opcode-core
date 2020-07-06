@@ -1,4 +1,4 @@
-% Copyright (c) 2019 Robert Ryszard Paciorek <rrp@opcode.eu.org>
+% Copyright (c) 2019-2020 Robert Ryszard Paciorek <rrp@opcode.eu.org>
 % 
 % MIT License
 % 
@@ -70,6 +70,10 @@
 \newfontfamily{\Symbola}{Symbola}
 
 
+%
+% code syntax highlight and placing
+%
+
 %\RequirePackage{minted} % nice code highlight (use minted insted of listings, due to encoding problems in listings)
 \RequirePackage{xparse, ifthen} % some tools for CodeFrame environment
 \newlength{\NextCodeFrameWidth}
@@ -118,6 +122,10 @@
 \newmintinline[cpp]{cpp}{}
 
 
+%
+% boxes for tips and exercises
+%
+
 %\RequirePackage[many,vignette,minted,magazine,poster,external]{tcolorbox} % nice framed boxes
 \newtcolorbox{ProTip}[2][]{
 	colback=white,
@@ -147,6 +155,21 @@
 \newcommand{\domowe}[1]{\teacher{{} -- \bf proponowane zadanie domowe za #1 pkt}}
 
 
+%
+% exercises databases
+%
+
+\RequirePackage{xstring, currfile}
+\def\zadanieID{}
+\newcommand{\checkZadanie}[1]{\IfStrEq{\zadanieID}{#1}{\def\zadanieOK{1}}{\def\zadanieOK{0}}}
+\newcommand{\insertZadanie}[3]{\begin{Zadanie}{#3}{#2} \def\zadanieID{#2}\input{#1}\def\zadanieID{} \end{Zadanie}}
+\newcommand{\insertRozwiazanie}[3]{\noindent Rozwiązanie zadania \ref{#2}:\\\def\zadanieID{#2-rozwiazanie}\input{#1}\def\zadanieID{}}
+
+
+%
+% title ad footer
+%
+
 \RequirePackage{titling} % configure \maketitle command
 \renewcommand{\maketitlehooka}{\vspace{-44pt}}
 \renewcommand{\maketitlehookb}{\vspace{-14pt}\teacher*{\color{teacherColor}\centerline{\Large(wersja dla prowadzącego)}\color{black}}}
@@ -157,6 +180,10 @@
 	\null\nopagebreak[4]\vfill\nopagebreak[4]\parbox{\textwidth}{\footnotesize\noindent\hspace{-0.3cm}\rule{5cm}{0.4pt}\\#1}%
 }
 
+
+%
+% teacher vs standard version
+%
 
 \ifdefined\teacherVersion
 	\definecolor{teacherColor}{cmyk}{0,0.8,0,0}
@@ -186,6 +213,11 @@
 	\newcommand{\rozwiazania}{}
 	\newcommand{\student}[1]{#1}
 \fi
+
+
+%
+% misc
+%
 
 \newcommand{\todo}[1]{{\color{red} TODO: #1}}
 \newcommand{\fixme}[1]{{\color{red} FIXME: #1}}
