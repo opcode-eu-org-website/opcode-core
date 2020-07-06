@@ -160,10 +160,12 @@
 %
 
 \RequirePackage{xstring, currfile}
-\def\zadanieID{}
-\newcommand{\checkZadanie}[1]{\IfStrEq{\zadanieID}{#1}{\def\zadanieOK{1}}{\def\zadanieOK{0}}}
-\newcommand{\insertZadanie}[3]{\begin{Zadanie}{#3}{#2} \def\zadanieID{#2}\input{#1}\def\zadanieID{} \end{Zadanie}}
-\newcommand{\insertRozwiazanie}[3]{\noindent Rozwiązanie zadania \ref{#2}:\\\def\zadanieID{#2-rozwiazanie}\input{#1}\def\zadanieID{}}
+\def\dbEntryID{}
+\newcommand{\dbEntryBegin}[1]{\IfStrEq{\dbEntryID}{#1}{\def\dbEntryCheckResults{1}}{\def\dbEntryCheckResults{0}}}
+\newcommand{\dbEntryInsert}[2]{\def\dbEntryID{#2}\input{#1}\def\dbEntryID{}}
+
+\newcommand{\insertZadanie}[3]{\begin{Zadanie}{#3}{#2} \dbEntryInsert{#1}{#2} \end{Zadanie}}
+\newcommand{\insertRozwiazanie}[3]{\noindent Rozwiązanie zadania \ref{#2}:\\\dbEntryInsert{#1}{#2-rozwiazanie}}
 
 
 %
