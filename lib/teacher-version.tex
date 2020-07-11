@@ -1,4 +1,4 @@
-% Copyright (c) 2019 Robert Ryszard Paciorek <rrp@opcode.eu.org>
+% Copyright (c) 2019-2020 Robert Ryszard Paciorek <rrp@opcode.eu.org>
 % 
 % MIT License
 % 
@@ -22,21 +22,25 @@
 
 \newcommand{\teacherVersion}{TRUE}
 \directlua{
-	baseFilePath   = status.filename;
-	baseFilePath,x = string.gsub(baseFilePath, "--teacher.tex", "");
-	baseFilePath,x = string.gsub(baseFilePath, ".tex", "");
-
-	texio.write('Build Teacher version for baseFilePath == ');
-	texio.write(baseFilePath);
+	--[[ set srcDir (dirname of source file) and srcName (filename of source file without extention and --teacher surfix) --]]
+	path,_      = string.gsub(status.filename, ".tex$", ""); --[[ $ --]]
+	path,_      = string.gsub(path, "--teacher$", ""); --[[ $ --]]
+	srcDir,_    = string.gsub(path, "[^/]*$", ""); --[[ $ --]]
+	srcName,_   = string.gsub(path, "[^/]*/", "");
+	_ = nil; path = nil;
+	
+	--[[ print info about srcDir and srcName --]]
+	texio.write('Build „teacher” version for file „' .. srcName .. '” in „' .. srcDir .. '” directory');
+	texio.write_nl('');
 }
 
 \newcommand{\rozwiazania}{
 	\begin{teacherOnly}
-		\typeout{Używam pliku z rozwiązaniami zadań: \directlua{ tex.sprint(baseFilePath, '--rozwiazania.tex'); }}
+		\typeout{Używam pliku z rozwiązaniami zadań: \directlua{ tex.sprint(srcDir .. 'rozwiazania/' .. srcName .. '.tex'); }}
 		\InputIfFileExists{
-			\directlua{ tex.sprint(baseFilePath, '--rozwiazania.tex'); }
+			\directlua{ tex.sprint(srcDir .. 'rozwiazania/' .. srcName .. '.tex'); }
 		}{}{}
 	\end{teacherOnly}
 }
 
-\input{ \directlua{ tex.sprint(baseFilePath, '.tex'); } }
+\input{ \directlua{ tex.sprint(srcDir .. srcName .. '.tex'); } }
