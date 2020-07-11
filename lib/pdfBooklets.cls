@@ -69,6 +69,9 @@
 % add some extra fonts
 \newfontfamily{\Symbola}{Symbola}
 
+% add easylist
+\RequirePackage[ampersand]{easylist}
+
 
 %
 % code syntax highlight and placing
@@ -166,6 +169,13 @@
 
 \newcommand{\insertZadanie}[3]{\begin{Zadanie}{#3}{#2} \dbEntryInsert{#1}{#2} \end{Zadanie}}
 \newcommand{\insertRozwiazanie}[3]{\noindent Rozwiązanie zadania \ref{#2}:\\\dbEntryInsert{#1}{#2-rozwiazanie}}
+
+% input file content without preambule and \end{document} protected by \inputOnlyContent
+\newcommand{\inputFileContent}[1]{
+	\providecommand{\inputOnlyContent}{TRUE}
+	\input{#1}
+	\let\inputOnlyContent\undefined
+}
 
 
 %
