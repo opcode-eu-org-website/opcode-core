@@ -155,6 +155,16 @@
 	label=#3,
 	#1
 }
+\newtcolorbox[auto counter, number within=subsection]{RozwiazanieBox}[1][]{
+	fontupper=\footnotesize,
+	before skip=13pt plus 2pt,
+	left=53pt,right=43pt,
+	breakable,
+	rotate=180,
+	colback=white!100!black,
+	boxrule=0pt, frame hidden, colframe=white,
+	#1
+}
 \newcommand{\domowe}[1]{\teacher{{} -- \bf proponowane zadanie domowe za #1 pkt}}
 
 
