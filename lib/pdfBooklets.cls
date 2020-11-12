@@ -168,7 +168,7 @@
 \newcommand{\dbEntryInsert}[2]{\def\dbEntryID{#2}\input{#1}\def\dbEntryID{}}
 
 \newcommand{\insertZadanie}[3]{\begin{Zadanie}{#3}{#2} \dbEntryInsert{#1}{#2} \end{Zadanie}}
-\newcommand{\insertRozwiazanie}[3]{\noindent Rozwiązanie zadania \ref{#2}:\\\dbEntryInsert{#1}{#2-rozwiazanie}}
+\newcommand{\insertRozwiazanie}[3]{\subsubsection*{Rozwiązanie zadania \ref{#2}} \dbEntryInsert{#1}{#2-rozwiazanie}}
 
 % input file content without preambule and \end{document} protected by \inputOnlyContent
 \newcommand{\inputFileContent}[1]{
