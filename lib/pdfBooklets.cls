@@ -155,16 +155,6 @@
 	label=#3,
 	#1
 }
-\newtcolorbox[auto counter, number within=subsection]{RozwiazanieBox}[1][]{
-	fontupper=\footnotesize,
-	before skip=13pt plus 2pt,
-	left=53pt,right=43pt,
-	breakable,
-	rotate=180,
-	colback=white!100!black,
-	boxrule=0pt, frame hidden, colframe=white,
-	#1
-}
 \newcommand{\domowe}[1]{\teacher{{} -- \bf proponowane zadanie domowe za #1 pkt}}
 
 
@@ -227,6 +217,15 @@
 		\end{teacherOnly}
 	}
 	\newcommand{\student}[1]{}
+	\newtcolorbox{RozwiazanieBox}[1][]{
+		fontupper=\footnotesize,
+		before skip=13pt plus 2pt,
+		left=43pt,right=53pt,
+		breakable,
+		colback=white!100!black,
+		boxrule=0pt, frame hidden, colframe=white,
+		#1
+	}
 \else
 	\NewExpandableDocumentCommand{\teacher}{s m}{}
 	\usepackage{comment}
@@ -234,6 +233,15 @@
 	\excludecomment{rozwiazanie}
 	\newcommand{\rozwiazania}{}
 	\newcommand{\student}[1]{#1}
+	\newtcolorbox{RozwiazanieBox}[1][]{
+		fontupper=\footnotesize,
+		before skip=13pt plus 2pt,
+		left=53pt,right=43pt,rotate=180,
+		breakable,
+		colback=white!100!black,
+		boxrule=0pt, frame hidden, colframe=white,
+		#1
+	}
 \fi
 
 
