@@ -25,6 +25,8 @@
 
 \LoadClass[ fontSize=12pt, tmargin=10mm, bmargin=17mm, lmargin=10mm, rmargin=10mm, extra ]{pdfArticle}
 
+% alllow break URLs
+\usepackage{xurl}
 
 % multilingual support
 \RequirePackage{polyglossia}
