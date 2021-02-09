@@ -132,9 +132,9 @@
 %
 
 \newcommand{\zaawansowane}[1]{%
-	\ifstrequal{#1}{*}    {\Symbola 🤔}%
-	\ifstrequal{#1}{**}   {\Symbola 🤓}%
-	\ifstrequal{#1}{***}  {\Symbola 🧐}%
+	\ifstrequal{#1}{*}    {\Symbola 🤔} {}%
+	\ifstrequal{#1}{**}   {\Symbola 🤓} {}%
+	\ifstrequal{#1}{***}  {\Symbola 🧐} {}%
 }
 
 
