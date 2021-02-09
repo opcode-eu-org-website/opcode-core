@@ -128,6 +128,17 @@
 
 
 %
+% icons for advanced topics
+%
+
+\newcommand{\zaawansowane}[1]{%
+	\ifstrequal{#1}{*}    {\Symbola 🤔}%
+	\ifstrequal{#1}{**}   {\Symbola 🤓}%
+	\ifstrequal{#1}{***}  {\Symbola 🧐}%
+}
+
+
+%
 % boxes for tips and exercises
 %
 
