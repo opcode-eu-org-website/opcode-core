@@ -132,9 +132,10 @@
 %
 
 \newcommand{\zaawansowane}[1]{%
-	\ifstrequal{#1}{*}    {\Symbola 🤔} {}%
-	\ifstrequal{#1}{**}   {\Symbola 🤓} {}%
-	\ifstrequal{#1}{***}  {\Symbola 🧐} {}%
+	\ifnumcomp{#1}{<}{5}  {} {%
+	\ifnumcomp{#1}{<}{15} {\Symbola 🤔} {%
+	\ifnumcomp{#1}{<}{25} {\Symbola 🤓} {\Symbola 🧐}%
+	}}%
 }
 
 
