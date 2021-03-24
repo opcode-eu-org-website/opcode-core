@@ -203,7 +203,8 @@
 \renewcommand{\maketitlehookd}{\vspace{-12pt}}
 
 \newcommand{\copyrightFooter}[1]{%
-	\null\nopagebreak[4]\vfill\nopagebreak[4]\parbox{\textwidth}{\footnotesize\noindent\hspace{-0.3cm}\rule{5cm}{0.4pt}\\#1}%
+	%\null\nopagebreak[4]\vfill\nopagebreak[4]\parbox{\textwidth}{\footnotesize\noindent\hspace{-0.3cm}\rule{5cm}{0.4pt}\\#1}%
+	\begin{figure}[b]\footnotesize\noindent\hspace{-0.3cm}\rule{5cm}{0.4pt}\\#1\end{figure}%
 }
 
 
