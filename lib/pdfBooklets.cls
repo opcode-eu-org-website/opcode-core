@@ -202,6 +202,7 @@
 \renewcommand{\maketitlehookd}{\vspace{-13pt}}
 \renewcommand{\maketitlehookd}{\vspace{-12pt}}
 
+\makeatletter\setlength\@fpbot{0\p@}\makeatother
 \newcommand{\copyrightFooter}[1]{%
 	%\null\nopagebreak[4]\vfill\nopagebreak[4]\parbox{\textwidth}{\footnotesize\noindent\hspace{-0.3cm}\rule{5cm}{0.4pt}\\#1}%
 	\begin{figure}[b]\footnotesize\noindent\hspace{-0.3cm}\rule{5cm}{0.4pt}\\#1\end{figure}%
@@ -258,6 +259,27 @@
 		#1
 	}
 \fi
+
+
+%
+% exercises with answers
+%
+
+\NewDocumentCommand{\Zadania}{o m o}{
+	\section{Zadania}
+	\IfValueT{#1}{\input{#1}}
+	\renewcommand*{\do}[1]{\input{##1}\newcommand{\noExtraInfoMode}{TRUE}\dbEntryInsert{##1}{praktyczne}\let\noExtraInfoMode\undefined}
+	\docsvlist{#2}
+	
+	\renewcommand{\insertZadanie}[3]{\subsubsection*{Rozwiązanie zadania \ref{##2}} \dbEntryInsert{##1}{##2-rozwiazanie}}
+	\newcommand{\noExtraInfoMode}{TRUE}
+	\input{booklets-sections/rozwiazania-intro.tex}
+	\begin{RozwiazanieBox}
+	\renewcommand*{\do}[1]{\input{##1}}
+	\docsvlist{#2}
+	\end{RozwiazanieBox}
+	\let\noExtraInfoMode\undefined
+}
 
 
 %
