@@ -121,3 +121,8 @@
  %\@namedef{ExampleVertical}{\FV@Environment{}{VerbatimOut}{\jobname.tmp}}
  %\@namedef{endExampleVertical}{\@nameuse{FVE@VerbatimOut}\PrintCodeAndExampleB{\jobname.tmp}}
 %\makeatother % przywracamy standardowe znaczenie @
+
+\makeatletter\setlength\@fpbot{0\p@}\makeatother
+\newcommand{\copyrightFooter}[1]{%
+	\begin{figure}[b]\footnotesize\noindent\hspace{-0.3cm}\rule{5cm}{0.4pt}\\#1\end{figure}%
+}
