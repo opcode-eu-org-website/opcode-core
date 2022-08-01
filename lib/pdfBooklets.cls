@@ -1,4 +1,4 @@
-% Copyright (c) 2019-2020 Robert Ryszard Paciorek <rrp@opcode.eu.org>
+% Copyright (c) 2019-2022 Robert Ryszard Paciorek <rrp@opcode.eu.org>
 % 
 % MIT License
 % 
@@ -179,10 +179,28 @@
 \RequirePackage{xstring, currfile}
 \def\dbEntryID{}
 \newcommand{\dbEntryBegin}[1]{\IfStrEq{\dbEntryID}{#1}{\def\dbEntryCheckResults{1}}{\def\dbEntryCheckResults{0}}}
-\newcommand{\dbEntryInsert}[2]{\def\dbEntryID{#2}\input{#1}\def\dbEntryID{}}
+\newcommand{\dbEntryInsert}[2]{\typeout{dbEntryInsert: #2 from #1}\def\dbEntryID{#2}\input{#1}\def\dbEntryID{}}
 
-\newcommand{\insertZadanie}[3]{\begin{Zadanie}{#3}{#2} \dbEntryInsert{#1}{#2} \end{Zadanie}}
+\ExplSyntaxOn
+\clist_new:N \l_uzyte_zadania
+\prop_new:N  \l_uzyte_zadania_pliki
+\newcommand{\registerZadanieXXX}[2]{
+	\typeout{registerZadanie #2~from~#1}
+	\clist_put_right:Nn \l_uzyte_zadania {#2}
+	\prop_put:Nnn \l_uzyte_zadania_pliki {#2} {#1}
+}
+\newcommand{\registerZadanie}[2]{
+	\exp_args:No \registerZadanieXXX {#1} {#2}
+}
+\newcommand{\getZadanieFile}[1]{
+	\prop_item:Nn \l_uzyte_zadania_pliki {#1}
+}
+\ExplSyntaxOff
+
+\newcommand{\insertZadanie}[3]{\registerZadanie{#1}{#2}\begin{Zadanie}{#3}{#2} \dbEntryInsert{#1}{#2} \end{Zadanie}}
 \newcommand{\insertRozwiazanie}[3]{\subsubsection*{Rozwiązanie zadania \ref{#2}} \dbEntryInsert{#1}{#2-rozwiazanie}}
+\newcommand{\insertZadanieRef}[1]{\begin{Zadanie}[title=Zadanie \ref{#1}]{}{} \dbEntryInsert{\getZadanieFile{#1}}{#1} \end{Zadanie}} % wstawia ponownie to samo zadanie z tym samym numerem
+
 
 % input file content without preambule and \end{document} protected by \inputOnlyContent
 \newcommand{\inputFileContent}[1]{
@@ -252,7 +270,7 @@
 	\newtcolorbox{RozwiazanieBox}[1][]{
 		fontupper=\footnotesize,
 		before skip=13pt plus 2pt,
-		left=53pt,right=43pt,rotate=180,
+		left=53pt,right=43pt,tikz={rotate=180},%rotate=180,
 		breakable,
 		colback=white!100!black,
 		boxrule=0pt, frame hidden, colframe=white,
@@ -265,21 +283,88 @@
 % exercises with answers
 %
 
-\NewDocumentCommand{\Zadania}{o m o}{
-	\section{Zadania}
-	\IfValueT{#1}{\input{#1}}
-	\renewcommand*{\do}[1]{\input{##1}\newcommand{\noExtraInfoMode}{TRUE}\dbEntryInsert{##1}{praktyczne}\let\noExtraInfoMode\undefined}
-	\docsvlist{#2}
+\ExplSyntaxOn
+\keys_define:nn { ZadaniaRozwiazaniaArgs } {
+	% set section title
+	title       .tl_set:N   = \l__args_title,
+	title       .initial:n  = Zadania,  
 	
-	\renewcommand{\insertZadanie}[3]{\subsubsection*{Rozwiązanie zadania \ref{##2}} \dbEntryInsert{##1}{##2-rozwiazanie}}
+	% disable adding section
+	nosection   .bool_set:N  = \l__args_nosection,
+	nosection   .initial:n  = false,
+	nosection   .default:n  = true,
+	
+	% optional file with intro text
+	intro       .tl_set:N   = \l__args_intro,
+	
+	% extra vspace at RozwiazanieBox end (need if rotation don't work)
+	extraspace  .dim_set:N  = \l__args_extraspace,
+	extraspace  .initial:n  = 0pt,
+}
+
+\NewDocumentCommand{\ZadaniaRozwiazaniaAuto}{O{}}{
+	\group_begin:
+	\keys_set:nn { ZadaniaRozwiazaniaArgs } { #1 }
+	
+	\bool_if:NTF{\l__args_nosection}{}{
+		\section{ \l__args_title }
+	}
+	
+	\tl_if_empty:nTF{\l__args_intro}{}{
+		\input{\l__args_intro}\par
+	}
+	
+	Poniższe~zadania~znajdują~się~także~w~odpowiednich~rozdziałach~skryptu.~Zostały~jednak~zamieszczone~zbiorczo~także~w~tym~miejscu~dla~wygody~czytelnika.
+	
+	\clist_map_inline:Nn \l_uzyte_zadania {\insertZadanieRef{##1}}
+	
 	\newcommand{\noExtraInfoMode}{TRUE}
 	\input{booklets-sections/rozwiazania-intro.tex}
 	\begin{RozwiazanieBox}
-	\renewcommand*{\do}[1]{\input{##1}}
-	\docsvlist{#2}
+		\clist_map_inline:Nn \l_uzyte_zadania {\subsubsection*{Rozwiązanie~zadania~\ref{##1}} \dbEntryInsert{\getZadanieFile{##1}}{##1-rozwiazanie}}
+		\dim_compare:nTF{\l__args_extraspace > 0pt}{\vspace{\dim_use:N \l__args_extraspace} \par \nobreakspace}{}
 	\end{RozwiazanieBox}
 	\let\noExtraInfoMode\undefined
+	
+	\group_end:
 }
+
+\NewDocumentCommand{\ZadaniaRozwiazania}{O{} m o}{
+	% #1 == lista opcji jak dla \ZadaniaRozwiazaniaAuto
+	% #2 == lista (csv) plików z zadaniami do wstawienia
+	% #3 == wartość opcjonalnego odstępu pionowego do dodania na końcu RozwiazanieBox (potrzebne jeżeli występuje problem z rotacją)
+	
+	\group_begin:
+	\keys_set:nn { ZadaniaRozwiazaniaArgs } { #1 }
+	
+	\bool_if:NTF{\l__args_nosection}{}{
+		\section{ \l__args_title }
+	}
+	
+	\tl_if_empty:nTF{\l__args_intro}{}{
+		\input{\l__args_intro}\par
+	}
+	
+	\IfValueTF{#3}{
+		\renewcommand*{\do}[1]{\input{##1}\newcommand{\noExtraInfoMode}{TRUE}\dbEntryInsert{##1}{#3}\let\noExtraInfoMode\undefined}
+	}{
+		\renewcommand*{\do}[1]{\input{##1}}
+	}
+	\docsvlist{#2}
+	
+	\newcommand{\noExtraInfoMode}{TRUE}
+	\input{booklets-sections/rozwiazania-intro.tex}
+	\begin{RozwiazanieBox}
+		\renewcommand{\insertZadanie}[3]{\subsubsection*{Rozwiązanie~zadania~\ref{##2}} \dbEntryInsert{##1}{##2-rozwiazanie}}
+		\renewcommand*{\do}[1]{\input{##1}}
+		\docsvlist{#2}
+		\dim_compare:nTF{\l__args_extraspace > 0pt}{\vspace{\dim_use:N \l__args_extraspace} \par \nobreakspace}{}
+	\end{RozwiazanieBox}
+	\let\noExtraInfoMode\undefined
+	
+	\group_end:
+}
+\ExplSyntaxOff
 
 
 %
