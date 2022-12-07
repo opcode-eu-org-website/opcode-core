@@ -294,6 +294,11 @@
 	nosection   .initial:n  = false,
 	nosection   .default:n  = true,
 	
+	% disable repeat exercises (only answers)
+	norepeat    .bool_set:N  = \l__args_norepeat,
+	norepeat    .initial:n  = false,
+	norepeat    .default:n  = true,
+	
 	% optional file with intro text
 	intro       .tl_set:N   = \l__args_intro,
 	
@@ -306,20 +311,29 @@
 	\group_begin:
 	\keys_set:nn { ZadaniaRozwiazaniaArgs } { #1 }
 	
-	\bool_if:NTF{\l__args_nosection}{}{
-		\section{ \l__args_title }
+	\bool_if:NTF{\l__args_norepeat}{
+	}{
+		\bool_if:NTF{\l__args_nosection}{}{
+			\section{ \l__args_title }
+		}
+		
+		\textit{Poniższe~zadania~znajdują~się~także~w~odpowiednich~rozdziałach~skryptu.~Zostały~jednak~zamieszczone~zbiorczo~także~w~tym~miejscu~dla~wygody~czytelnika.}
+		
+		\tl_if_empty:nTF{\l__args_intro}{}{
+			\vspace{5pt}
+			\input{\l__args_intro}\par
+		}
+		
+		\clist_map_inline:Nn \l_uzyte_zadania {\insertZadanieRef{##1}}
 	}
 	
-	\tl_if_empty:nTF{\l__args_intro}{}{
-		\input{\l__args_intro}\par
-	}
-	
-	Poniższe~zadania~znajdują~się~także~w~odpowiednich~rozdziałach~skryptu.~Zostały~jednak~zamieszczone~zbiorczo~także~w~tym~miejscu~dla~wygody~czytelnika.
-	
-	\clist_map_inline:Nn \l_uzyte_zadania {\insertZadanieRef{##1}}
+	\section{Rozwiązania~zadań}
+	\bool_if:NTF{\l__args_norepeat}{
+		\textit{Treści~zadań~zamieszczone~zostały~w~odpowiednich~rozdziałach~skryptu.}\par\vspace{7pt}
+	}{}
+	\input{booklets-sections/rozwiazania-intro.tex}
 	
 	\newcommand{\noExtraInfoMode}{TRUE}
-	\input{booklets-sections/rozwiazania-intro.tex}
 	\begin{RozwiazanieBox}
 		\clist_map_inline:Nn \l_uzyte_zadania {\subsubsection*{Rozwiązanie~zadania~\ref{##1}} \dbEntryInsert{\getZadanieFile{##1}}{##1-rozwiazanie}}
 		\dim_compare:nTF{\l__args_extraspace > 0pt}{\vspace{\dim_use:N \l__args_extraspace} \par \nobreakspace}{}
