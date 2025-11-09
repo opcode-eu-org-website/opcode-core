@@ -202,32 +202,35 @@ h1, #updateInfo {
 
 
 /* demonstracyjne kody programów */
-div.demo_codes {
-	width: 100%;
+div.demo_codes > pre {
 	overflow: auto;
-	padding-bottom: 7px;
-	margin-bottom: 20px;
-}
-div.demo_codes div {
-	display: table;
-	min-width: 100%;
-	border-spacing: 7pt 0;
-}
-div.demo_codes pre {
 	padding-top: 7px;
-	display: table-cell;
-	min-width: 25%;
 	tab-size: 4;
 	-moz-tab-size: 4;
+	border: 1px solid #ccc;
+	border-radius: 0 4px 4px 4px;
 }
+
+div.demo_codes > .demo_tab {
+	padding-left: 20px;
+	padding-right: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+	border-radius: 0 4px 4px 4px;
+}
+
+div.demo_tab > .code_comment {
+	font-size: 90%;
+}
+
 @media print {
-	div.demo_codes div {
-		display: block;
+	div.demo_codes > pre, div.demo_codes > .demo_tab {
+		display: block !important;
 	}
-	div.demo_codes pre {
-		display: block;
+	.demo_codes_tabs {
+		display: none;
 	}
-	/* paski przewijania na wydruku oznaczają błąd formatowania, zatem pokzaujemy je wyraźnie */
+	/* paski przewijania na wydruku oznaczają błąd formatowania, zatem pokazujemy je wyraźnie */
 	/* to jest niestandardowe rozszerzenie webkit'a, ale potrzebujemy tego tylko w wkhtmltopdf, opartym właśnie na nim */
 	::-webkit-scrollbar {
 		width: 40px;
@@ -248,6 +251,9 @@ div.demo_codes pre::before {
 div.demo_codes pre.cpp::before {
     content: "/// Przykład C++ " attr(data-info);
 }
+div.demo_codes pre.c::before {
+    content: "/// Przykład C " attr(data-info);
+}
 div.demo_codes pre.python::before {
     content: "### Przykład Python " attr(data-info);
 }
@@ -262,6 +268,28 @@ div.demo_codes pre.javascript::before {
 }
 div.demo_codes pre.xml::before {
     content: "/// Przykład XHTML+JavaScript " attr(data-info);
+}
+
+.demo_codes_tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+.demo_codes_tab_button {
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  background: #eee;
+  cursor: pointer;
+  border-radius: 4px 4px 0 0;
+  transition: background 0.2s;
+}
+.demo_codes_tab_button:hover {
+  background: #ddd;
+}
+.demo_codes_tab_button.active {
+  background: #fff;
+  border-bottom: 1px solid #fff;
+  font-weight: bold;
 }
 
 
