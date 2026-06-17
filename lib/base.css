@@ -254,6 +254,9 @@ div.demo_codes pre.cpp::before {
 div.demo_codes pre.c::before {
     content: "/// Przykład C " attr(data-info);
 }
+div.demo_codes pre.rs::before {
+    content: "/// Przykład Rust " attr(data-info);
+}
 div.demo_codes pre.python::before {
     content: "### Przykład Python " attr(data-info);
 }
