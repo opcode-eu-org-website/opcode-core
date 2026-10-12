@@ -50,6 +50,9 @@ body {
 	margin: 8px;
 	height: 48px;
 }
+#menu_extra img {
+	margin: 2px;
+}
 #toc li, #toc ul {
 	margin-top: 0;
 	margin-bottom: 0;
