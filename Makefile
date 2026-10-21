@@ -25,8 +25,7 @@ FORCE_UPDATE = false
 SUDO_CMD = $(shell if [ "$$(id -u)" != "0" ]; then echo sudo TMPDIR=$$TMPDIR; fi)
 SUDO_USER_CMD = $(shell if [ "$$SUDO_USER" != "" ]; then echo sudo -u $$SUDO_USER TMPDIR=$$TMPDIR; fi)
 
-
-SVGICONURL  := https://bytebucket.org/OpCode-eu-org/svgiconset/raw/HEAD/other/
+SVGICONURL  := https://src.opcode.eu.org/SvgIconSet/current/other/
 
 .PHONY: help installCoreDependencies installTextUtils checkout-submodules
 
@@ -39,7 +38,7 @@ installCoreDependencies:
 
 installEDAlibs:
 	$(eval TEMP_DIR := $(shell $(SUDO_USER_CMD) mktemp -d))
-	$(SUDO_USER_CMD) git clone https://bitbucket.org/OpCode-eu-org/eda-libs "$(TEMP_DIR)/eda-libs"
+	$(SUDO_USER_CMD) git clone https://src.opcode.eu.org/EDA-libs "$(TEMP_DIR)/eda-libs"
 	cd "$(TEMP_DIR)/eda-libs" && $(SUDO_CMD) make installDependencies
 	cd "$(TEMP_DIR)/eda-libs" && $(SUDO_CMD) make installTools
 	cd "$(TEMP_DIR)/eda-libs" && $(SUDO_USER_CMD) make installLibs
@@ -47,7 +46,7 @@ installEDAlibs:
 
 installTextUtils:
 	$(eval TEMP_DIR := $(shell $(SUDO_USER_CMD) mktemp -d))
-	$(SUDO_USER_CMD) git clone https://bitbucket.org/OpCode-eu-org/TextUtils "$(TEMP_DIR)/TextUtils"
+	$(SUDO_USER_CMD) git clone https://src.opcode.eu.org/TextUtils "$(TEMP_DIR)/TextUtils"
 	cd "$(TEMP_DIR)/TextUtils" && $(SUDO_CMD) make installDependencies
 	cd "$(TEMP_DIR)/TextUtils" && $(SUDO_CMD) make installTools
 	rm -fr "$(TEMP_DIR)"
@@ -61,7 +60,3 @@ checkout-submodules:
 #
 
 -include /usr/local/share/TextUtils/buildWebSite.mk
-
-$(TEXBUILDDIR)/pdfArticle.cls $(TEXBUILDDIR)/labels4easylist.sty $(TEXBUILDDIR)/vtable.sty $(TEXBUILDDIR)/ehhline.sty $(TEXBUILDDIR)/tikzPackets.sty:
-	mkdir -p $(TEXBUILDDIR)
-	wget -O "$@" "https://bitbucket.org/OpCode-eu-org/latex-libs/raw/HEAD/pkgs/$(@F)"
