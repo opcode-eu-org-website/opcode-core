@@ -31,7 +31,7 @@ jobs:
         run: |
           rm -fr src_site
           ./tools/create_src_site.py ${{ inputs.deploy_mode }} src_site
-          cp lib/index.css src_site
+          cp lib/index.css lib/404.html src_site
           
           # remove symlink from /current ... pages deploy has problem with broken links
           (cd src_site; find -type l -regex './[^/]*/current/.*' -exec rm -f {} \;)
